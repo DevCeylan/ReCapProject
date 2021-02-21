@@ -1,5 +1,6 @@
 ﻿using Business.Concrete;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using System;
@@ -10,7 +11,7 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager( new InMemoryCarDal() );
+            CarManager carManager = new CarManager( new EfCarDal() );
 
             Console.WriteLine("-- GetAll Function Call: \n");
             foreach (var c in carManager.GetAll())
@@ -19,7 +20,7 @@ namespace ConsoleUI
             }
 
             Console.WriteLine("\n-- GetById Function Call: \n");
-            Car car = carManager.GetById(2);
+            Car car = carManager.GetCarById(2);
             Console.WriteLine("Car id= " + car.CarId + ": " + car.Description );
 
             Console.WriteLine("\n-- Add Function Call: \n");
@@ -30,8 +31,7 @@ namespace ConsoleUI
                 Console.WriteLine(c.CarId + " " + c.Description);
             }
 
-            Console.WriteLine("\n-- Delete and Update Function Calls: \n");
-            carManager.Delete(3); // car with id=3 will deleted
+            Console.WriteLine("\n-- Update Function Call: \n");
             carManager.Update(new Car { CarId = 7, BrandId = 3, ColorId = 1, ModelYear = 2018, DailyPrice = 250, Description = "Peugeot 308 - Updated" });
             foreach (var c in carManager.GetAll()) // to see the changes
             {
